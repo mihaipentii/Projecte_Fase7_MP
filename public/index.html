@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EnergyWise — Track. Understand. Act.</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="nav-logo">
+    <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="14" cy="14" r="12" fill="rgba(0,212,168,0.1)" stroke="var(--accent)" stroke-width="1.5"/>
+      <path d="M14 6L10 14h4l-2 8 8-10h-5l3-6z" fill="var(--accent)"/>
+    </svg>
+    EnergyWise
+  </div>
+
+  <!-- App links — hidden when logged out -->
+  <ul class="nav-links" id="nav-app-links" style="display:none">
+    <li><a href="#" data-page="page-home">Home</a></li>
+    <li><a href="#" data-page="page-logs">My Logs</a></li>
+    <li><a href="#" data-page="page-dashboard">Dashboard</a></li>
+    <li><a href="#" data-page="page-calculator">Calculator</a></li>
+    <li><a href="#" data-page="page-ods">SDG 7</a></li>
+    <li><a href="#" data-page="page-nuclear">Nuclear</a></li>
+    <li><a href="#" data-page="page-problem">The Problem</a></li>
+    <li><a href="#" data-page="page-sustainable-dev">Our Practices</a></li>
+    <li><a href="#" data-page="page-company">Patagonia</a></li>
+  </ul>
+
+  <div class="nav-right">
+    <button class="dark-toggle" id="darkToggle">☀️ Light</button>
+
+    <!-- User info + logout — hidden when logged out -->
+    <div id="nav-logout-btn" style="display:none;align-items:center;gap:0.6rem">
+      <span style="font-size:0.8rem;color:var(--text2)">
+        👤 <span id="nav-user-name"></span>
+        <span id="nav-admin-badge" class="badge badge-purple" style="display:none;margin-left:4px">admin</span>
+      </span>
+      <button class="btn btn-sm btn-outline" id="logout-btn">Log Out</button>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<div id="main-content">
+
+  <!--PAGE 0: LOGIN -->
+  <section id="page-login" class="page">
+    <div style="min-height:80vh;display:flex;align-items:center;justify-content:center">
+      <div style="width:100%;max-width:420px">
+
+        <div class="text-center mb-3">
+          <div style="font-size:2.5rem">⚡</div>
+          <h1 style="font-size:1.75rem;margin-top:0.5rem">EnergyWise</h1>
+          <p class="text-muted text-sm mt-1">Sign in to track your energy footprint</p>
+        </div>
+
+        <div class="card">
+          <h3 class="mb-3">Sign In</h3>
+          <form id="login-form">
+            <div class="form-group">
+              <label for="login-username">Username</label>
+              <input type="text" id="login-username" placeholder="e.g. alice" autocomplete="username" />
+            </div>
+            <div class="form-group">
+              <label for="login-password">Password</label>
+              <input type="password" id="login-password" placeholder="Your password" autocomplete="current-password" />
+            </div>
+            <p id="login-error" style="color:var(--danger);font-size:0.85rem;margin-bottom:1rem;min-height:1.2rem"></p>
+            <button type="submit" class="btn btn-primary" id="login-btn" style="width:100%">Sign In</button>
+          </form>
+
+          <div style="margin-top:1.5rem;padding:1rem;background:var(--bg3);border-radius:var(--radius2)">
+            <p class="text-xs text-muted mb-2" style="font-weight:600;text-transform:uppercase;letter-spacing:0.06em">Demo accounts</p>
+            <div style="display:flex;flex-direction:column;gap:0.4rem">
+              <div class="flex-between text-sm">
+                <span>&#x1F451; <strong>alice</strong> <span class="badge badge-purple" style="font-size:0.65rem">admin</span></span>
+                <span class="text-muted">alice123</span>
+              </div>
+              <div class="flex-between text-sm">
+                <span>&#x1F331; <strong>bob</strong></span>
+                <span class="text-muted">bob123</span>
+              </div>
+              <div class="flex-between text-sm">
+                <span>&#x1F4A8; <strong>carol</strong></span>
+                <span class="text-muted">carol123</span>
+              </div>
+              <div class="flex-between text-sm">
+                <span>&#x2622;&#xFE0F; <strong>dave</strong></span>
+                <span class="text-muted">dave123</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE 1: HOME-->
+  <section id="page-home" class="page">
+    <div class="hero">
+      <div class="hero-bg"></div>
+      <div style="position:relative;max-width:760px">
+        <span class="tag">⚡ SDG 7 — Affordable &amp; Clean Energy</span>
+        <h1 class="display">
+          Track your energy.<br/>
+          <span class="text-accent">Cut your carbon.</span>
+        </h1>
+        <p class="subtitle mt-3" style="max-width:560px">
+          EnergyWise lets you log, visualize and understand your personal or household energy consumption — 
+          and shows you exactly how switching to cleaner sources like solar, wind, or nuclear 
+          can slash your CO₂ footprint.
+        </p>
+        <div class="flex gap-2 mt-4" style="flex-wrap:wrap">
+          <button class="btn btn-primary" onclick="showPage('page-logs')">
+            ⚡ Start Logging
+          </button>
+          <button class="btn btn-outline" onclick="showPage('page-dashboard')">
+            📊 View Dashboard
+          </button>
+          <button class="btn btn-outline" onclick="showPage('page-nuclear')">
+            ☢️ Why Nuclear?
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value" id="home-total-kwh">—</div>
+        <div class="stat-label">Total kWh Logged</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="home-total-co2">—</div>
+        <div class="stat-label">kg CO₂ Tracked</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="home-total-logs">—</div>
+        <div class="stat-label">Log Entries</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="home-saved">—</div>
+        <div class="stat-label">kWh Below EU Avg</div>
+      </div>
+    </div>
+
+    <!-- Feature cards -->
+    <div class="grid-3 mt-4">
+      <div class="card glow" style="cursor:pointer" onclick="showPage('page-logs')">
+        <div style="font-size:2rem;margin-bottom:1rem">📋</div>
+        <h3>Energy Log CRUD</h3>
+        <p class="text-muted text-sm mt-2">
+          Create, view, edit and delete your personal energy consumption records. 
+          Filter by source, category and date range.
+        </p>
+      </div>
+      <div class="card glow" style="cursor:pointer" onclick="showPage('page-dashboard')">
+        <div style="font-size:2rem;margin-bottom:1rem">📊</div>
+        <h3>Live Dashboard</h3>
+        <p class="text-muted text-sm mt-2">
+          Visualize your energy consumption patterns, CO₂ emissions by source, 
+          and track your progress over time.
+        </p>
+      </div>
+      <div class="card glow" style="cursor:pointer" onclick="showPage('page-calculator')">
+        <div style="font-size:2rem;margin-bottom:1rem">🧮</div>
+        <h3>CO₂ Calculator</h3>
+        <p class="text-muted text-sm mt-2">
+          Instantly estimate the carbon cost of any energy consumption, 
+          and compare across different energy sources.
+        </p>
+      </div>
+    </div>
+
+    <!-- Energy source comparison teaser -->
+    <div class="card mt-4">
+      <h3 class="mb-2">Not all electricity is equal</h3>
+      <p class="text-muted text-sm mb-3">CO₂ emissions per kWh generated — lower is better</p>
+      <div style="display:flex;flex-direction:column;gap:0.75rem">
+        <div>
+          <div class="flex-between text-sm mb-1"><span>Coal</span><span style="color:var(--fossil)">820 g CO₂/kWh</span></div>
+          <div class="progress-bar-wrap"><div class="progress-bar" style="width:100%;background:var(--fossil)"></div></div>
+        </div>
+        <div>
+          <div class="flex-between text-sm mb-1"><span>Natural Gas</span><span style="color:var(--solar)">490 g CO₂/kWh</span></div>
+          <div class="progress-bar-wrap"><div class="progress-bar" style="width:60%;background:var(--solar)"></div></div>
+        </div>
+        <div>
+          <div class="flex-between text-sm mb-1"><span>Solar PV</span><span style="color:var(--accent)">20 g CO₂/kWh</span></div>
+          <div class="progress-bar-wrap"><div class="progress-bar" style="width:2.4%;"></div></div>
+        </div>
+        <div>
+          <div class="flex-between text-sm mb-1"><span>Wind</span><span style="color:var(--wind)">11 g CO₂/kWh</span></div>
+          <div class="progress-bar-wrap"><div class="progress-bar" style="width:1.3%;background:var(--wind)"></div></div>
+        </div>
+        <div>
+          <div class="flex-between text-sm mb-1"><span style="color:var(--nuclear)">☢️ Nuclear</span><span style="color:var(--nuclear)">12 g CO₂/kWh</span></div>
+          <div class="progress-bar-wrap"><div class="progress-bar" style="width:1.5%;background:var(--nuclear)"></div></div>
+        </div>
+      </div>
+      <p class="text-xs text-muted mt-2">Source: IPCC Lifecycle Assessment data</p>
+    </div>
+  </section>
+
+  <!-- PAGE 2: ENERGY LOGS (CRUD) -->
+  <section id="page-logs" class="page">
+    <div class="section-header">
+      <span class="tag">📋 Full CRUD</span>
+      <h2>Energy Consumption Logs</h2>
+      <p>Track your daily energy usage across all categories and sources.</p>
+    </div>
+
+    <!-- Add log form -->
+    <div class="card mb-3">
+      <h3 class="mb-3">➕ Add New Log Entry</h3>
+      <form id="add-log-form">
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="add-date">Date *</label>
+            <input type="date" id="add-date" />
+            <span class="error-msg"></span>
+          </div>
+          <div class="form-group">
+            <label for="add-category">Category *</label>
+            <select id="add-category">
+              <option value="">Select category...</option>
+              <option>Heating</option>
+              <option>Cooling</option>
+              <option>Lighting</option>
+              <option>Appliances</option>
+              <option>Transportation</option>
+              <option>Hot Water</option>
+              <option>Other</option>
+            </select>
+            <span class="error-msg"></span>
+          </div>
+          <div class="form-group">
+            <label for="add-source">Energy Source *</label>
+            <select id="add-source">
+              <option value="">Select source...</option>
+              <option>Nuclear Grid</option>
+              <option>Solar</option>
+              <option>Wind</option>
+              <option>Hydropower</option>
+              <option>Natural Gas</option>
+              <option>Coal</option>
+              <option>Gasoline</option>
+              <option>Electric Vehicle</option>
+              <option>Mixed Grid</option>
+            </select>
+            <span class="error-msg"></span>
+          </div>
+          <div class="form-group">
+            <label for="add-kwh">Energy (kWh) *</label>
+            <input type="number" id="add-kwh" min="0" step="0.1" placeholder="e.g. 12.5" />
+            <span class="error-msg"></span>
+          </div>
+          <div class="form-group">
+            <label for="add-co2">CO₂ Emitted (kg)</label>
+            <input type="number" id="add-co2" min="0" step="0.01" placeholder="e.g. 2.4 (optional)" />
+            <span class="error-msg"></span>
+          </div>
+          <div class="form-group">
+            <label for="add-location">Location</label>
+            <input type="text" id="add-location" placeholder="e.g. Home, Office..." maxlength="80" />
+            <span class="error-msg"></span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="add-notes">Notes</label>
+          <textarea id="add-notes" rows="2" placeholder="Any additional context..." maxlength="300"></textarea>
+          <span class="error-msg"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">⚡ Add Log Entry</button>
+      </form>
+    </div>
+
+    <!-- Filter bar -->
+    <div class="filter-bar">
+      <input type="text" id="filter-cat" placeholder="Filter by category..." style="min-width:160px" />
+      <input type="text" id="filter-src" placeholder="Filter by source..." style="min-width:160px" />
+      <input type="date" id="filter-from" title="From date" />
+      <input type="date" id="filter-to" title="To date" />
+    </div>
+
+    <!-- Logs table -->
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Category</th>
+            <th>Source</th>
+            <th>kWh</th>
+            <th>CO₂ (kg)</th>
+            <th>Location</th>
+            <th>Notes</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="logs-tbody">
+          <tr><td colspan="8" class="text-center text-muted" style="padding:2rem">Loading logs...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- PAGE 3: DASHBOARD -->
+  <section id="page-dashboard" class="page">
+    <div class="section-header">
+      <span class="tag">📊 Analytics</span>
+      <h2>Your Energy Dashboard</h2>
+      <p>Visualize your consumption data pulled live from the API.</p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value" id="dash-total-kwh">—</div>
+        <div class="stat-label">Total kWh</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="dash-total-co2" style="color:var(--fossil)">—</div>
+        <div class="stat-label">kg CO₂ Total</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="dash-log-count">—</div>
+        <div class="stat-label">Log Entries</div>
+      </div>
+    </div>
+
+    <div class="grid-2 mt-4">
+      <div class="card">
+        <h3 class="mb-3">kWh by Energy Source</h3>
+        <div class="chart-container" id="source-chart">
+          <p class="text-muted">Loading chart...</p>
+        </div>
+      </div>
+      <div class="card">
+        <h3 class="mb-3">Recent Activity</h3>
+        <div id="recent-logs"><p class="text-muted">Loading...</p></div>
+      </div>
+    </div>
+
+    <div class="card mt-4">
+      <h3 class="mb-3">Consumption by Category</h3>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Category</th><th>kWh</th><th>CO₂ (kg)</th><th>Entries</th><th>Share</th>
+            </tr>
+          </thead>
+          <tbody id="cat-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE 4: CO₂ CALCULATOR -->
+  <section id="page-calculator" class="page">
+    <div class="section-header">
+      <span class="tag">🧮 Tool</span>
+      <h2>Carbon Emissions Calculator</h2>
+      <p>Estimate the CO₂ footprint of any energy consumption and compare sources.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3 class="mb-3">Calculate Your Emissions</h3>
+        <div class="form-group">
+          <label for="calc-source">Energy Source</label>
+          <select id="calc-source">
+            <option value="">Select a source...</option>
+            <option>Coal</option>
+            <option>Natural Gas</option>
+            <option>Oil/Gasoline</option>
+            <option>Nuclear Grid</option>
+            <option>Solar</option>
+            <option>Wind</option>
+            <option>Hydropower</option>
+            <option>Electric Vehicle (avg grid)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="calc-kwh">Energy Consumed (kWh)</label>
+          <input type="number" id="calc-kwh" min="0" step="0.1" placeholder="Enter kWh..." />
+        </div>
+        <div id="calc-result"></div>
+      </div>
+
+      <div class="card">
+        <h3 class="mb-3">Emission Factors Reference</h3>
+        <p class="text-muted text-sm mb-3">grams of CO₂ per kWh — IPCC lifecycle data</p>
+        <div style="display:flex;flex-direction:column;gap:0.6rem">
+          <div class="flex-between text-sm" style="padding:0.5rem;border-radius:6px;background:rgba(255,107,74,0.08)">
+            <span>🏭 Coal</span><span style="color:var(--fossil);font-weight:600">820 g/kWh</span>
+          </div>
+          <div class="flex-between text-sm" style="padding:0.5rem;border-radius:6px;background:rgba(255,107,74,0.05)">
+            <span>🔥 Natural Gas</span><span style="color:var(--solar);font-weight:600">490 g/kWh</span>
+          </div>
+          <div class="flex-between text-sm" style="padding:0.5rem;border-radius:6px;background:rgba(255,107,74,0.05)">
+            <span>⛽ Oil/Gasoline</span><span style="color:var(--solar);font-weight:600">650 g/kWh</span>
+          </div>
+          <div class="flex-between text-sm" style="padding:0.5rem;border-radius:6px;background:rgba(77,184,255,0.08)">
+            <span>🚗 EV (avg grid)</span><span style="color:var(--wind);font-weight:600">100 g/kWh</span>
+          </div>
+          <div class="flex-between text-sm" style="padding:0.5rem;border-radius:6px;background:rgba(0,212,168,0.06)">
+            <span>🌊 Hydropower</span><span style="color:var(--accent);font-weight:600">24 g/kWh</span>
+          </div>
+          <div class="flex-between text-sm" style="padding:0.5rem;border-radius:6px;background:rgba(0,212,168,0.06)">
+            <span>☀️ Solar PV</span><span style="color:var(--accent);font-weight:600">20 g/kWh</span>
+          </div>
+          <div class="flex-between text-sm" style="padding:0.5rem;border-radius:6px;background:rgba(124,77,255,0.1)">
+            <span>☢️ Nuclear</span><span style="color:var(--nuclear);font-weight:600">12 g/kWh</span>
+          </div>
+          <div class="flex-between text-sm" style="padding:0.5rem;border-radius:6px;background:rgba(0,212,168,0.06)">
+            <span>💨 Wind</span><span style="color:var(--wind);font-weight:600">11 g/kWh</span>
+          </div>
+        </div>
+        <p class="text-xs text-muted mt-3">
+          These are median lifecycle estimates including construction, fuel processing, and operation. 
+          Nuclear and wind are the <strong>lowest-emission</strong> sources per unit of electricity generated.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE 5: SDG 7 -->
+  <section id="page-ods" class="page">
+    <div class="section-header">
+      <span class="tag">🌍 United Nations SDG</span>
+      <h2>SDG 7 — Affordable and Clean Energy</h2>
+      <p>How EnergyWise is aligned with the UN Sustainable Development Goals</p>
+    </div>
+
+    <div class="grid-2 mb-4">
+      <div class="card" style="border-color:rgba(255,184,0,0.3)">
+        <div style="font-size:3rem;margin-bottom:1rem">⚡</div>
+        <h3 class="mb-2">What is SDG 7?</h3>
+        <p class="text-muted" style="line-height:1.7">
+          SDG 7 calls for ensuring access to <strong>affordable, reliable, sustainable, and modern energy</strong> 
+          for all by 2030. Today, about 775 million people still lack access to electricity, 
+          and global energy demand continues to grow — making the transition to clean sources 
+          more urgent than ever.
+        </p>
+        <div class="divider"></div>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem">
+          <li class="text-sm">✅ <strong>7.1</strong> — Universal access to modern energy services</li>
+          <li class="text-sm">✅ <strong>7.2</strong> — Increase the share of renewable energy globally</li>
+          <li class="text-sm">✅ <strong>7.3</strong> — Double the global rate of energy efficiency</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 class="mb-3">How EnergyWise contributes</h3>
+        <div style="display:flex;flex-direction:column;gap:1rem">
+          <div class="fact-card" style="padding:1rem;border-radius:8px;background:var(--bg3);border:none">
+            <div class="fact-icon">📊</div>
+            <div>
+              <h4>Awareness through data</h4>
+              <p>Logging energy helps users understand their actual consumption and identify waste patterns.</p>
+            </div>
+          </div>
+          <div class="fact-card" style="padding:1rem;border-radius:8px;background:var(--bg3);border:none">
+            <div class="fact-icon">🎯</div>
+            <div>
+              <h4>Behavioral change</h4>
+              <p>When you can see your CO₂ by source, you're motivated to choose cleaner alternatives.</p>
+            </div>
+          </div>
+          <div class="fact-card" style="padding:1rem;border-radius:8px;background:var(--bg3);border:none">
+            <div class="fact-icon">🧮</div>
+            <div>
+              <h4>Informed decisions</h4>
+              <p>Our calculator shows the climate cost of each energy source so you can make educated choices.</p>
+            </div>
+          </div>
+          <div class="fact-card" style="padding:1rem;border-radius:8px;background:var(--bg3);border:none">
+            <div class="fact-icon">☢️</div>
+            <div>
+              <h4>Nuclear advocacy</h4>
+              <p>We provide evidence-based information about nuclear energy as a safe, low-carbon solution.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ASG Impact -->
+    <div class="card">
+      <h3 class="mb-3">Environmental, Social &amp; Governance (ESG) Impact</h3>
+      <div class="grid-3">
+        <div style="padding:1.25rem;background:rgba(0,212,168,0.06);border-radius:var(--radius);border:1px solid rgba(0,212,168,0.2)">
+          <div style="font-size:1.5rem;margin-bottom:0.5rem">🌱</div>
+          <h4 style="color:var(--accent);margin-bottom:0.5rem">Environmental</h4>
+          <p class="text-sm text-muted">
+            EnergyWise directly supports reducing personal carbon footprints. 
+            By tracking CO₂ per source, users are empowered to switch to nuclear, solar, or wind — 
+            reducing their environmental impact measurably.
+          </p>
+        </div>
+        <div style="padding:1.25rem;background:rgba(77,184,255,0.06);border-radius:var(--radius);border:1px solid rgba(77,184,255,0.2)">
+          <div style="font-size:1.5rem;margin-bottom:0.5rem">👥</div>
+          <h4 style="color:var(--wind);margin-bottom:0.5rem">Social</h4>
+          <p class="text-sm text-muted">
+            Energy poverty affects millions. By advocating for nuclear and renewables — 
+            which produce abundant, cheap electricity — EnergyWise supports the social goal 
+            of universal, affordable clean energy access.
+          </p>
+        </div>
+        <div style="padding:1.25rem;background:rgba(124,77,255,0.06);border-radius:var(--radius);border:1px solid rgba(124,77,255,0.2)">
+          <div style="font-size:1.5rem;margin-bottom:0.5rem">🏛️</div>
+          <h4 style="color:var(--nuclear);margin-bottom:0.5rem">Governance</h4>
+          <p class="text-sm text-muted">
+            Open, transparent energy data supports good governance. 
+            Citizens who track and understand energy use can better engage with 
+            policy debates about grid decarbonization and energy regulation.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--PAGE 6: NUCLEAR ENERGY -->
+  <section id="page-nuclear" class="page">
+    <div class="section-header">
+      <span class="tag">☢️ The Case for Nuclear</span>
+      <h2>Nuclear Energy: Safe, Clean, and Essential</h2>
+      <p>The science-backed case for nuclear power as a cornerstone of decarbonization</p>
+    </div>
+
+    <!-- Hero stat row -->
+    <div class="stats-grid mb-4">
+      <div class="stat-card" style="border-color:rgba(124,77,255,0.3)">
+        <div class="stat-value" style="color:var(--nuclear)">12</div>
+        <div class="stat-label">g CO₂/kWh — lifecycle</div>
+      </div>
+      <div class="stat-card" style="border-color:rgba(124,77,255,0.3)">
+        <div class="stat-value" style="color:var(--nuclear)">90%+</div>
+        <div class="stat-label">Capacity factor (vs 25% solar)</div>
+      </div>
+      <div class="stat-card" style="border-color:rgba(124,77,255,0.3)">
+        <div class="stat-value" style="color:var(--nuclear)">#1</div>
+        <div class="stat-label">Safest energy per TWh</div>
+      </div>
+      <div class="stat-card" style="border-color:rgba(124,77,255,0.3)">
+        <div class="stat-value" style="color:var(--nuclear)">0</div>
+        <div class="stat-label">Air pollution during operation</div>
+      </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="grid-2 mb-4">
+      <div>
+        <div class="nuclear-box mb-3">
+          <h4>☢️ Why nuclear is misunderstood</h4>
+          <p class="text-sm text-muted" style="line-height:1.7">
+            Nuclear energy suffers from decades of fear-based public perception, largely driven by rare 
+            high-profile accidents. But when you look at the data per unit of energy produced, nuclear power 
+            is statistically the <strong>safest form of energy generation</strong> ever developed — 
+            safer than rooftop solar installations.
+          </p>
+        </div>
+        <div class="card mb-3">
+          <h4 class="mb-2">Deaths per TWh of energy produced</h4>
+          <p class="text-xs text-muted mb-3">Lower = safer — includes accidents AND air pollution deaths</p>
+          <div style="display:flex;flex-direction:column;gap:0.75rem">
+            <div>
+              <div class="flex-between text-sm mb-1"><span>Coal</span><span style="color:var(--fossil);font-weight:700">24.6 deaths/TWh</span></div>
+              <div class="progress-bar-wrap"><div class="progress-bar" style="width:100%;background:var(--fossil)"></div></div>
+            </div>
+            <div>
+              <div class="flex-between text-sm mb-1"><span>Oil</span><span style="color:var(--fossil)">18.4 deaths/TWh</span></div>
+              <div class="progress-bar-wrap"><div class="progress-bar" style="width:75%;background:var(--fossil)"></div></div>
+            </div>
+            <div>
+              <div class="flex-between text-sm mb-1"><span>Natural Gas</span><span style="color:var(--solar)">2.8 deaths/TWh</span></div>
+              <div class="progress-bar-wrap"><div class="progress-bar" style="width:11%;background:var(--solar)"></div></div>
+            </div>
+            <div>
+              <div class="flex-between text-sm mb-1"><span>Hydropower</span><span style="color:var(--wind)">1.3 deaths/TWh</span></div>
+              <div class="progress-bar-wrap"><div class="progress-bar" style="width:5%;background:var(--wind)"></div></div>
+            </div>
+            <div>
+              <div class="flex-between text-sm mb-1"><span>Solar</span><span style="color:var(--accent)">0.02 deaths/TWh</span></div>
+              <div class="progress-bar-wrap"><div class="progress-bar" style="width:0.08%;"></div></div>
+            </div>
+            <div>
+              <div class="flex-between text-sm mb-1"><span style="color:var(--nuclear)">☢️ Nuclear</span><span style="color:var(--nuclear);font-weight:700">0.03 deaths/TWh</span></div>
+              <div class="progress-bar-wrap"><div class="progress-bar" style="width:0.12%;background:var(--nuclear)"></div></div>
+            </div>
+          </div>
+          <p class="text-xs text-muted mt-2">Source: Our World in Data / Sovacool et al.</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="fact-grid" style="grid-template-columns:1fr;gap:0.85rem">
+          <div class="fact-card">
+            <div class="fact-icon">🌍</div>
+            <div>
+              <h4>France: the proof of concept</h4>
+              <p>France generates ~70% of its electricity from nuclear power and has one of the 
+              <strong>lowest per-capita CO₂ emissions</strong> in the developed world, 
+              with reliable, cheap electricity year-round.</p>
+            </div>
+          </div>
+          <div class="fact-card">
+            <div class="fact-icon">⚡</div>
+            <div>
+              <h4>24/7 baseload power</h4>
+              <p>Unlike solar (works only in daylight) or wind (weather-dependent), 
+              nuclear plants run continuously at 90%+ capacity — providing reliable 
+              baseload power that keeps the grid stable.</p>
+            </div>
+          </div>
+          <div class="fact-card">
+            <div class="fact-icon">🧪</div>
+            <div>
+              <h4>Waste is manageable</h4>
+              <p>All nuclear waste ever produced in the US would fit inside a football field 
+              to a depth of about 10 yards. Coal plants release more radioactive material 
+              into the atmosphere than nuclear plants do.</p>
+            </div>
+          </div>
+          <div class="fact-card">
+            <div class="fact-icon">🔬</div>
+            <div>
+              <h4>Generation IV &amp; fusion</h4>
+              <p>Next-generation reactors (SMRs, thorium, molten salt) and fusion research 
+              promise even safer, cheaper, and waste-minimal nuclear energy within this decade.</p>
+            </div>
+          </div>
+          <div class="fact-card">
+            <div class="fact-icon">🏔️</div>
+            <div>
+              <h4>Tiny land footprint</h4>
+              <p>A nuclear plant generating 1 GW requires ~1 km². An equivalent wind farm 
+              would need ~430 km². Nuclear preserves wilderness and biodiversity 
+              that sprawling renewables would displace.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Energy mix comparison -->
+    <div class="card">
+      <h3 class="mb-3">Source Comparison: Nuclear vs Other Clean Options</h3>
+      <div class="compare-grid">
+        <div class="compare-card" style="border-color:rgba(124,77,255,0.3)">
+          <div class="energy-icon">☢️</div>
+          <h4 style="color:var(--nuclear)">Nuclear</h4>
+          <div class="compare-row">CO₂/kWh: <strong>12 g</strong></div>
+          <div class="compare-row">Capacity: <strong>90%+</strong></div>
+          <div class="compare-row">Land: <strong>Very low</strong></div>
+          <div class="compare-row">Reliable: <strong>24/7</strong></div>
+          <div class="compare-row">Waste: <strong>Solid, contained</strong></div>
+        </div>
+        <div class="compare-card" style="border-color:rgba(255,184,0,0.3)">
+          <div class="energy-icon">☀️</div>
+          <h4 style="color:var(--solar)">Solar PV</h4>
+          <div class="compare-row">CO₂/kWh: <strong>20 g</strong></div>
+          <div class="compare-row">Capacity: <strong>~25%</strong></div>
+          <div class="compare-row">Land: <strong>High</strong></div>
+          <div class="compare-row">Reliable: <strong>Daytime only</strong></div>
+          <div class="compare-row">Waste: <strong>Panel disposal issue</strong></div>
+        </div>
+        <div class="compare-card" style="border-color:rgba(77,184,255,0.3)">
+          <div class="energy-icon">💨</div>
+          <h4 style="color:var(--wind)">Wind</h4>
+          <div class="compare-row">CO₂/kWh: <strong>11 g</strong></div>
+          <div class="compare-row">Capacity: <strong>~35%</strong></div>
+          <div class="compare-row">Land: <strong>Very high</strong></div>
+          <div class="compare-row">Reliable: <strong>Weather-dependent</strong></div>
+          <div class="compare-row">Waste: <strong>Blade disposal</strong></div>
+        </div>
+        <div class="compare-card" style="border-color:rgba(0,212,168,0.3)">
+          <div class="energy-icon">🌊</div>
+          <h4 style="color:var(--accent)">Hydro</h4>
+          <div class="compare-row">CO₂/kWh: <strong>24 g</strong></div>
+          <div class="compare-row">Capacity: <strong>~50%</strong></div>
+          <div class="compare-row">Land: <strong>High (reservoirs)</strong></div>
+          <div class="compare-row">Reliable: <strong>Near 24/7</strong></div>
+          <div class="compare-row">Waste: <strong>Ecosystem impact</strong></div>
+        </div>
+      </div>
+      <p class="text-xs text-muted mt-3">
+        All low-carbon sources are essential for a clean grid. Nuclear's unique advantage is 
+        its combination of <strong>high reliability + tiny land use + extremely low emissions</strong>.
+      </p>
+    </div>
+  </section>
+
+  <!-- PAGE 7: THE PROBLEM-->
+  <section id="page-problem" class="page">
+    <div class="section-header">
+      <span class="tag">⚠️ SDG Context — RA2</span>
+      <h2>The Energy Problem We're Solving</h2>
+      <p>Understanding the challenge that EnergyWise addresses</p>
+    </div>
+
+    <div class="card mb-4" style="border-color:rgba(255,107,74,0.3);background:rgba(255,107,74,0.04)">
+      <h3 class="mb-2" style="color:var(--fossil)">🔥 The core problem: Energy blindness</h3>
+      <p style="line-height:1.7;color:var(--text2)">
+        Most people have no idea how much energy they consume, from which sources, or what CO₂ 
+        that translates to. Without visibility, behavioral change is impossible. 
+        Meanwhile, global CO₂ emissions from energy are the single largest driver of climate change, 
+        accounting for over <strong style="color:var(--text)">73% of total greenhouse gas emissions</strong>. 
+        Energy systems need to be decarbonized rapidly — but individuals can only participate meaningfully 
+        if they understand their own impact.
+      </p>
+    </div>
+
+    <div class="grid-2 mb-4">
+      <div>
+        <h3 class="mb-3">Key statistics</h3>
+        <div style="display:flex;flex-direction:column;gap:1rem">
+          <div class="card" style="border-left:3px solid var(--fossil)">
+            <div style="font-size:1.8rem;font-weight:700;color:var(--fossil)">73%</div>
+            <p class="text-sm text-muted">of global greenhouse gas emissions come from energy</p>
+          </div>
+          <div class="card" style="border-left:3px solid var(--solar)">
+            <div style="font-size:1.8rem;font-weight:700;color:var(--solar)">775M</div>
+            <p class="text-sm text-muted">people still lack access to electricity worldwide</p>
+          </div>
+          <div class="card" style="border-left:3px solid var(--wind)">
+            <div style="font-size:1.8rem;font-weight:700;color:var(--wind)">29%</div>
+            <p class="text-sm text-muted">of global electricity now from renewable sources (2023)</p>
+          </div>
+          <div class="card" style="border-left:3px solid var(--nuclear)">
+            <div style="font-size:1.8rem;font-weight:700;color:var(--nuclear)">10%</div>
+            <p class="text-sm text-muted">of global electricity from nuclear — potential for much more</p>
+          </div>
+          <div class="card" style="border-left:3px solid var(--accent)">
+            <div style="font-size:1.8rem;font-weight:700;color:var(--accent)">1.5°C</div>
+            <p class="text-sm text-muted">Paris Agreement target — requires near-zero grid by 2050</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3 class="mb-3">How EnergyWise helps</h3>
+        <div class="fact-grid" style="grid-template-columns:1fr;gap:0.85rem">
+          <div class="fact-card">
+            <div class="fact-icon">👁️</div>
+            <div>
+              <h4>Visibility creates change</h4>
+              <p>The first step to reducing consumption is knowing your baseline. 
+              Our logging system gives users a complete picture of their energy footprint.</p>
+            </div>
+          </div>
+          <div class="fact-card">
+            <div class="fact-icon">🔄</div>
+            <div>
+              <h4>Source-level tracking</h4>
+              <p>By logging not just kWh but the <em>source</em>, users see that 
+              "electricity" is not neutral — nuclear and solar are drastically cleaner than coal.</p>
+            </div>
+          </div>
+          <div class="fact-card">
+            <div class="fact-icon">📉</div>
+            <div>
+              <h4>Trend identification</h4>
+              <p>The dashboard surfaces which categories and habits drive the most CO₂, 
+              making it easy to prioritize high-impact changes.</p>
+            </div>
+          </div>
+          <div class="fact-card">
+            <div class="fact-icon">📚</div>
+            <div>
+              <h4>Education about nuclear</h4>
+              <p>The Nuclear page directly addresses one of the biggest obstacles to 
+              decarbonization: public fear of safe, zero-emission nuclear energy.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE 8: OUR SUSTAINABLE PRACTICES -->
+  <section id="page-sustainable-dev" class="page">
+    <div class="section-header">
+      <span class="tag">♻️ Professional Sustainability — RA3 &amp; RA5</span>
+      <h2>Our Sustainable Development Practices</h2>
+      <p>How we applied sustainable principles while building EnergyWise</p>
+    </div>
+
+    <!-- RA3 Practices -->
+    <div class="card mb-4">
+      <h3 class="mb-1">RA3 — Practices as a Sustainable Developer</h3>
+      <p class="text-muted text-sm mb-3">Actions we took during development to minimize environmental impact</p>
+      <div class="fact-grid">
+        <div class="fact-card">
+          <div class="fact-icon">☁️</div>
+          <div>
+            <h4>Cloud-based collaboration</h4>
+            <p>Used GitHub for version control and VS Code Live Share for collaboration — 
+            avoiding physical travel, paper printouts, and USB drives.</p>
+          </div>
+        </div>
+        <div class="fact-card">
+          <div class="fact-icon">🖥️</div>
+          <div>
+            <h4>Power management</h4>
+            <p>Computers shut down fully when not in use. No screen savers — which still 
+            consume full GPU power. System sleep configured at 5 minutes of inactivity.</p>
+          </div>
+        </div>
+        <div class="fact-card">
+          <div class="fact-icon">📵</div>
+          <div>
+            <h4>Zero paper policy</h4>
+            <p>No code was printed for review. All documentation is digital-first. 
+            Notes taken in Notion or markdown files instead of physical notebooks.</p>
+          </div>
+        </div>
+        <div class="fact-card">
+          <div class="fact-icon">🔌</div>
+          <div>
+            <h4>Minimal external requests</h4>
+            <p>The app loads only two Google Fonts (cached after first load) and zero 
+            tracking scripts. Every API call is intentional — no polling, no background fetches.</p>
+          </div>
+        </div>
+        <div class="fact-card">
+          <div class="fact-icon">🌐</div>
+          <div>
+            <h4>Local-first development</h4>
+            <p>Built to run on localhost — no cloud server needed for development, 
+            keeping energy consumption during testing at near zero.</p>
+          </div>
+        </div>
+        <div class="fact-card">
+          <div class="fact-icon">📦</div>
+          <div>
+            <h4>Minimal dependencies</h4>
+            <p>Only 2 production npm packages (express + cors). Less code to download, 
+            fewer vulnerabilities to patch, and smaller digital footprint overall.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RA5 Technical Sustainability -->
+    <div class="card">
+      <h3 class="mb-1">RA5 — Technically Efficient Web Application</h3>
+      <p class="text-muted text-sm mb-3">
+        The web itself has a carbon footprint. Heavier websites consume more data, battery, and server energy.
+      </p>
+      <div class="grid-2">
+        <div>
+          <h4 class="mb-2">🌙 Dark Mode (Energy Saving)</h4>
+          <p class="text-sm text-muted mb-3" style="line-height:1.7">
+            The default theme is <strong>dark mode</strong>. On OLED and AMOLED screens — 
+            which are standard on modern phones and increasingly common on laptops — 
+            dark pixels consume significantly less power than bright white ones. 
+            A white Google search page consumes up to <strong>6× more power</strong> on 
+            OLED vs the same page in dark mode. The light mode toggle exists for accessibility, 
+            but dark is the default.
+          </p>
+          <div style="background:var(--bg3);border-radius:8px;padding:1rem">
+            <div class="text-sm text-muted">Dark mode power consumption</div>
+            <div class="progress-bar-wrap mt-1">
+              <div class="progress-bar" style="width:18%;"></div>
+            </div>
+            <div class="text-sm text-muted mt-1">Light mode power consumption</div>
+            <div class="progress-bar-wrap mt-1">
+              <div class="progress-bar" style="width:100%;background:var(--fossil)"></div>
+            </div>
+            <p class="text-xs text-muted mt-2">Relative OLED power consumption — Google research</p>
+          </div>
+        </div>
+        <div>
+          <h4 class="mb-2">⚡ Other Efficiency Techniques</h4>
+          <div style="display:flex;flex-direction:column;gap:0.75rem">
+            <div class="fact-card" style="padding:0.85rem">
+              <div class="fact-icon" style="width:36px;height:36px;font-size:1.2rem">🖼️</div>
+              <div>
+                <h4 style="font-size:0.85rem">No heavy images</h4>
+                <p>Zero unoptimized images. All visuals are CSS/SVG — they weigh bytes, not megabytes.</p>
+              </div>
+            </div>
+            <div class="fact-card" style="padding:0.85rem">
+              <div class="fact-icon" style="width:36px;height:36px;font-size:1.2rem">🔁</div>
+              <div>
+                <h4 style="font-size:0.85rem">On-demand API calls only</h4>
+                <p>Data is only fetched when a page is opened. No background polling. No timers firing unnecessary requests.</p>
+              </div>
+            </div>
+            <div class="fact-card" style="padding:0.85rem">
+              <div class="fact-icon" style="width:36px;height:36px;font-size:1.2rem">📄</div>
+              <div>
+                <h4 style="font-size:0.85rem">Single-page architecture</h4>
+                <p>The SPA router swaps content without full page reloads — saving bandwidth and reducing server requests by ~80%.</p>
+              </div>
+            </div>
+            <div class="fact-card" style="padding:0.85rem">
+              <div class="fact-icon" style="width:36px;height:36px;font-size:1.2rem">🧹</div>
+              <div>
+                <h4 style="font-size:0.85rem">Clean, commented code</h4>
+                <p>Well-structured code is easier to maintain and extend — reducing future developer hours and compute cycles.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE 9: PATAGONIA COMPANY ANALYSIS -->
+  <section id="page-company" class="page">
+    <div class="section-header">
+      <span class="tag">🏔️ Company Analysis — RA6</span>
+      <h2>Patagonia: Sustainability as Business Model</h2>
+      <p>An analysis of Patagonia's sustainability strategy, stakeholders, and impact measurement</p>
+    </div>
+
+    <div class="card mb-4" style="border-color:rgba(0,212,168,0.2)">
+      <div class="flex-between mb-3">
+        <div>
+          <h3>About Patagonia</h3>
+          <p class="text-muted text-sm mt-1">
+            Outdoor apparel company founded in 1973 by Yvon Chouinard. 
+            Revenue ~$1.5B/year. In 2022, Chouinard donated the entire company to fight climate change.
+          </p>
+        </div>
+        <div style="font-size:3rem">🏔️</div>
+      </div>
+      <div class="grid-3">
+        <div style="text-align:center;padding:1rem;background:var(--bg3);border-radius:8px">
+          <div style="font-size:1.6rem;font-weight:700;color:var(--accent)">1%</div>
+          <div class="text-xs text-muted mt-1">of revenue donated to environmental causes annually</div>
+        </div>
+        <div style="text-align:center;padding:1rem;background:var(--bg3);border-radius:8px">
+          <div style="font-size:1.6rem;font-weight:700;color:var(--accent)">100%</div>
+          <div class="text-xs text-muted mt-1">renewable electricity in owned &amp; operated facilities</div>
+        </div>
+        <div style="text-align:center;padding:1rem;background:var(--bg3);border-radius:8px">
+          <div style="font-size:1.6rem;font-weight:700;color:var(--accent)">87%</div>
+          <div class="text-xs text-muted mt-1">recycled or renewable materials in product line</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2 mb-4">
+      <div class="card">
+        <h3 class="mb-3">🌍 Environmental Actions</h3>
+        <div style="display:flex;flex-direction:column;gap:0.85rem">
+          <div style="padding:0.85rem;background:var(--bg3);border-radius:8px;border-left:3px solid var(--accent)">
+            <h4 class="text-sm">1% for the Planet</h4>
+            <p class="text-xs text-muted mt-1">
+              Patagonia donates 1% of all sales to grassroots environmental nonprofits — 
+              over $140 million donated to date. They also founded the 1% for the Planet NGO network.
+            </p>
+          </div>
+          <div style="padding:0.85rem;background:var(--bg3);border-radius:8px;border-left:3px solid var(--accent)">
+            <h4 class="text-sm">Worn Wear Program</h4>
+            <p class="text-xs text-muted mt-1">
+              Patagonia repairs, refurbishes, and resells used clothing — extending product 
+              lifecycle and directly embodying circular economy principles. They have traveling 
+              repair vans and dedicated repair centers.
+            </p>
+          </div>
+          <div style="padding:0.85rem;background:var(--bg3);border-radius:8px;border-left:3px solid var(--accent)">
+            <h4 class="text-sm">Regenerative Organic Certification</h4>
+            <p class="text-xs text-muted mt-1">
+              Their food and fiber products pursue regenerative organic certification — 
+              a standard that goes beyond "no harm" to actively rebuilding soil health and sequestering carbon.
+            </p>
+          </div>
+          <div style="padding:0.85rem;background:var(--bg3);border-radius:8px;border-left:3px solid var(--accent)">
+            <h4 class="text-sm">Carbon neutrality target</h4>
+            <p class="text-xs text-muted mt-1">
+              Patagonia committed to achieving carbon neutrality across their entire supply chain by 2025, 
+              including Scope 3 emissions from suppliers and product use.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="mb-3">👥 Stakeholders &amp; How They're Served</h3>
+        <div style="display:flex;flex-direction:column;gap:0.75rem">
+          <div style="display:grid;grid-template-columns:120px 1fr;gap:1rem;padding:0.85rem;background:var(--bg3);border-radius:8px;align-items:start">
+            <div>
+              <div style="font-size:1.2rem">🛍️</div>
+              <strong class="text-sm">Customers</strong>
+            </div>
+            <p class="text-xs text-muted">
+              High-quality durable products with lifetime repair guarantee. 
+              Transparency about supply chain and environmental impact of each product via "Footprint Chronicles".
+            </p>
+          </div>
+          <div style="display:grid;grid-template-columns:120px 1fr;gap:1rem;padding:0.85rem;background:var(--bg3);border-radius:8px;align-items:start">
+            <div>
+              <div style="font-size:1.2rem">👷</div>
+              <strong class="text-sm">Workers</strong>
+            </div>
+            <p class="text-xs text-muted">
+              Fair Trade certified factories, on-site childcare for employees, 
+              flexible work for environmental activism, above-minimum wages throughout the supply chain.
+            </p>
+          </div>
+          <div style="display:grid;grid-template-columns:120px 1fr;gap:1rem;padding:0.85rem;background:var(--bg3);border-radius:8px;align-items:start">
+            <div>
+              <div style="font-size:1.2rem">🌱</div>
+              <strong class="text-sm">Environment</strong>
+            </div>
+            <p class="text-xs text-muted">
+              Treated as a silent stakeholder. Board-level environmental committee. 
+              Company mission statement: "We're in business to save our home planet."
+            </p>
+          </div>
+          <div style="display:grid;grid-template-columns:120px 1fr;gap:1rem;padding:0.85rem;background:var(--bg3);border-radius:8px;align-items:start">
+            <div>
+              <div style="font-size:1.2rem">🏘️</div>
+              <strong class="text-sm">Local communities</strong>
+            </div>
+            <p class="text-xs text-muted">
+              Supports grassroots environmental groups in the regions they operate in. 
+              Retail stores act as community hubs for activism and environmental education.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="mb-3">📏 How Patagonia Measures Impact</h3>
+      <div class="grid-3">
+        <div style="padding:1rem;background:rgba(0,212,168,0.06);border-radius:8px;border:1px solid rgba(0,212,168,0.15)">
+          <h4 class="text-sm mb-2" style="color:var(--accent)">Environmental Profit &amp; Loss (EP&amp;L)</h4>
+          <p class="text-xs text-muted">
+            Patagonia uses an Environmental P&amp;L accounting method that assigns a 
+            monetary value to environmental impacts, including water use, land disturbance, 
+            greenhouse gas emissions, and air and water pollution throughout the supply chain.
+          </p>
+        </div>
+        <div style="padding:1rem;background:rgba(0,212,168,0.06);border-radius:8px;border:1px solid rgba(0,212,168,0.15)">
+          <h4 class="text-sm mb-2" style="color:var(--accent)">Supply Chain Transparency</h4>
+          <p class="text-xs text-muted">
+            The Footprint Chronicles tool on their website lets any customer trace any product 
+            through its supply chain — factory locations, environmental certifications, 
+            and social audits are all publicly available.
+          </p>
+        </div>
+        <div style="padding:1rem;background:rgba(0,212,168,0.06);border-radius:8px;border:1px solid rgba(0,212,168,0.15)">
+          <h4 class="text-sm mb-2" style="color:var(--accent)">Annual Environmental Report</h4>
+          <p class="text-xs text-muted">
+            Patagonia publishes a detailed annual environmental responsibility report covering 
+            Scope 1, 2, and 3 emissions, material sourcing, water impact, waste, 
+            and progress against stated sustainability goals.
+          </p>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <p class="text-sm text-muted">
+        <strong>Relevance to EnergyWise:</strong> Patagonia's model shows that transparency and data-driven 
+        accountability are central to genuine sustainability — which is exactly what EnergyWise 
+        provides for individual energy consumers. Both tools make the invisible visible.
+      </p>
+    </div>
+  </section>
+
+
+</div><!-- /main-content -->
+
+<!-- FOOTER -->
+<footer>
+  <p>
+    <strong>EnergyWise</strong> · Built for SDG 7 — Affordable and Clean Energy · 
+    DWES Module · 
+    <a href="#" onclick="showPage('page-about')">About the project</a>
+  </p>
+  <p class="mt-1">
+    🌱 This web app was built with sustainability in mind — dark mode default, minimal requests, zero tracking.
+  </p>
+</footer>
+
+<!--EDIT MODAL -->
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>✏️ Edit Log Entry</h3>
+      <button class="modal-close" onclick="closeEditModal()">✕</button>
+    </div>
+    <form id="edit-log-form">
+      <input type="hidden" id="edit-id" />
+      <div class="grid-2">
+        <div class="form-group">
+          <label for="edit-date">Date *</label>
+          <input type="date" id="edit-date" />
+          <span class="error-msg"></span>
+        </div>
+        <div class="form-group">
+          <label for="edit-category">Category *</label>
+          <select id="edit-category">
+            <option value="">Select category...</option>
+            <option>Heating</option><option>Cooling</option><option>Lighting</option>
+            <option>Appliances</option><option>Transportation</option>
+            <option>Hot Water</option><option>Other</option>
+          </select>
+          <span class="error-msg"></span>
+        </div>
+        <div class="form-group">
+          <label for="edit-source">Energy Source *</label>
+          <select id="edit-source">
+            <option value="">Select source...</option>
+            <option>Nuclear Grid</option><option>Solar</option><option>Wind</option>
+            <option>Hydropower</option><option>Natural Gas</option><option>Coal</option>
+            <option>Gasoline</option><option>Electric Vehicle</option><option>Mixed Grid</option>
+          </select>
+          <span class="error-msg"></span>
+        </div>
+        <div class="form-group">
+          <label for="edit-kwh">Energy (kWh) *</label>
+          <input type="number" id="edit-kwh" min="0" step="0.1" />
+          <span class="error-msg"></span>
+        </div>
+        <div class="form-group">
+          <label for="edit-co2">CO₂ (kg)</label>
+          <input type="number" id="edit-co2" min="0" step="0.01" />
+          <span class="error-msg"></span>
+        </div>
+        <div class="form-group">
+          <label for="edit-location">Location</label>
+          <input type="text" id="edit-location" maxlength="80" />
+          <span class="error-msg"></span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="edit-notes">Notes</label>
+        <textarea id="edit-notes" rows="2" maxlength="300"></textarea>
+        <span class="error-msg"></span>
+      </div>
+      <div class="flex gap-2">
+        <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+        <button type="button" class="btn btn-outline" onclick="closeEditModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div id="toast-container"></div>
+
+<script src="js/api.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/router.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/home.js"></script>
+<script src="js/logs.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/calculator.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

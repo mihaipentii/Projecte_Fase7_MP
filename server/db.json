@@ -1,0 +1,110 @@
+{
+  "users": [
+    {
+      "id": "u1",
+      "username": "alice",
+      "password": "alice123",
+      "name": "Alice Green",
+      "role": "admin",
+      "email": "alice@energywise.com"
+    },
+    {
+      "id": "u2",
+      "username": "bob",
+      "password": "bob123",
+      "name": "Bob Solar",
+      "role": "user",
+      "email": "bob@energywise.com"
+    },
+    {
+      "id": "u3",
+      "username": "carol",
+      "password": "carol123",
+      "name": "Carol Wind",
+      "role": "user",
+      "email": "carol@energywise.com"
+    },
+    {
+      "id": "u4",
+      "username": "dave",
+      "password": "dave123",
+      "name": "Dave Nuclear",
+      "role": "user",
+      "email": "dave@energywise.com"
+    }
+  ],
+  "logs": [
+    {
+      "id": "1",
+      "userId": "u1",
+      "date": "2025-04-01",
+      "category": "Heating",
+      "source": "Natural Gas",
+      "kwh": 45.2,
+      "co2kg": 9.04,
+      "location": "Home",
+      "notes": "Unusually cold day, had to heat extra",
+      "createdAt": "2025-04-01T08:00:00Z"
+    },
+    {
+      "id": "2",
+      "userId": "u2",
+      "date": "2025-04-03",
+      "category": "Transportation",
+      "source": "Electric Vehicle",
+      "kwh": 12.5,
+      "co2kg": 0.5,
+      "location": "Commute",
+      "notes": "Charged with home solar panel",
+      "createdAt": "2025-04-03T07:30:00Z"
+    },
+    {
+      "id": "3",
+      "userId": "u1",
+      "date": "2025-04-05",
+      "category": "Appliances",
+      "source": "Nuclear Grid",
+      "kwh": 8.3,
+      "co2kg": 0.08,
+      "location": "Home",
+      "notes": "Washing machine, dishwasher, oven",
+      "createdAt": "2025-04-05T12:00:00Z"
+    },
+    {
+      "id": "4",
+      "userId": "u3",
+      "date": "2025-04-08",
+      "category": "Lighting",
+      "source": "Solar",
+      "kwh": 2.1,
+      "co2kg": 0.0,
+      "location": "Home",
+      "notes": "LED lights all day",
+      "createdAt": "2025-04-08T09:00:00Z"
+    },
+    {
+      "id": "5",
+      "userId": "u4",
+      "date": "2025-04-10",
+      "category": "Heating",
+      "source": "Nuclear Grid",
+      "kwh": 30.0,
+      "co2kg": 0.3,
+      "location": "Office",
+      "notes": "Office heating during work hours",
+      "createdAt": "2025-04-10T08:00:00Z"
+    },
+    {
+      "id": "6",
+      "userId": "u2",
+      "date": "2025-04-12",
+      "category": "Transportation",
+      "source": "Gasoline",
+      "kwh": 60.0,
+      "co2kg": 14.0,
+      "location": "Road trip",
+      "notes": "Long distance weekend trip",
+      "createdAt": "2025-04-12T10:00:00Z"
+    }
+  ]
+}
