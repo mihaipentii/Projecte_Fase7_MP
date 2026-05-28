@@ -1,8 +1,4 @@
-/* 
-   dashboard.js — Dashboard page
-   Fetches stats from API and renders
-   charts, category table, recent logs.
- */
+// A file for the Dashboard page.
 
 //  Main init 
 async function initDashboard() {

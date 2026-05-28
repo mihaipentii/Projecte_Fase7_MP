@@ -1,8 +1,5 @@
-/* 
-   router.js — Single-Page App router
-   Manages page visibility and nav state.
-   Calls per-page init functions on load.
- */
+// This file controls which page is visible in the app.
+// It also highlights the active nav link and runs page-specific code when you switch pages.
 
 // Map of pageId → init function (set by each module)
 const pageInitHandlers = {};

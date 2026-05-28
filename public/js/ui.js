@@ -1,8 +1,5 @@
-/* 
-   ui.js — Shared UI utilities
-   Toast notifications, dark mode toggle,
-   badge helpers, and form validation.
- */
+// This file has helper functions for the UI.
+// It handles things like showing toasts, switching dark/light mode, and form validation.
 
 //  Toast notifications 
 function showToast(message, type = 'success') {

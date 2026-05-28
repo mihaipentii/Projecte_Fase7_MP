@@ -1,9 +1,7 @@
-/* 
-   auth.js — Authentication module
-   Handles login, logout, session check,
-   and protecting the UI when logged out. */
+// This file handles user authentication (login/logout) and session state.
+// It checks if you're logged in, manages login/logout, and hides or shows UI based on your session.
 
-// Current session user (null = not logged in)
+// Current session user 
 let currentUser = null;
 
 //  API calls 

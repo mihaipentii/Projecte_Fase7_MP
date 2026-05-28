@@ -1,4 +1,5 @@
-/* app.js — Application entry point */
+// This is the main entry point for the app.
+// It sets up which code runs for each page, and starts everything up when the site loads.
 
 // Register page-specific init functions 
 registerPageInit('page-login',       initLoginPage);

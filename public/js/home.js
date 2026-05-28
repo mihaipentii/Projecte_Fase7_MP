@@ -1,8 +1,5 @@
-/* 
-   home.js — Home page
-   Loads summary stats from API and
-   updates the hero stat cards.
- */
+// This file loads and updates the stats on the Home page.
+// It gets summary data from the API and updates the numbers you see at the top.
 
 // Average EU household annual consumption in kWh (rough estimate)
 const EU_AVG_KWH_YEAR = 3500;

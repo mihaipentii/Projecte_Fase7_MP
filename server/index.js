@@ -1,3 +1,6 @@
+// This is the main server file for your app.
+// It sets up the backend, handles API routes, sessions, and serves the frontend files.
+
 const express = require('express');
 const cors    = require('cors');
 const session = require('express-session');

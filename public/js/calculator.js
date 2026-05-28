@@ -4,7 +4,7 @@
    using IPCC lifecycle emission factors.
  */
 
-// kg CO₂ emitted per kWh — IPCC median lifecycle values
+// kg CO2 emitted per kWh — IPCC median lifecycle values
 const EMISSION_FACTORS = {
   'Coal':                           0.820,
   'Natural Gas':                    0.490,
