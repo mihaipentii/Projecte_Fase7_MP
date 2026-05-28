@@ -8,16 +8,15 @@ const app     = express();
 const PORT    = 3000;
 const DB_PATH = path.join(__dirname, 'db.json');
 
-//  Middleware 
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+// Middleware 
+app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '../public')));
-
+app.use(express.static(path.join(__dirname, '..', 'public')));
 app.use(session({
   secret: 'energywise-secret-key',
   resave: false,
   saveUninitialized: false,
-  cookie: { httpOnly: true, maxAge: 1000 * 60 * 60 * 2 } 
+  cookie: { httpOnly: true, maxAge: 1000 * 60 * 60 * 2 }
 }));
 
 //  DB helpers 
@@ -35,8 +34,7 @@ function generateId(arr) {
   return String(maxId + 1);
 }
 
-// Auth middleware 
-// Protects all /api/logs and /api/stats routes
+//  Auth middleware 
 function requireAuth(req, res, next) {
   if (!req.session.userId) {
     return res.status(401).json({ success: false, message: 'Unauthorized — please log in' });
@@ -44,24 +42,28 @@ function requireAuth(req, res, next) {
   next();
 }
 
-// POST /api/auth/login
+// POST /api/auth/login 
 app.post('/api/auth/login', (req, res) => {
   const { username, password } = req.body;
+
+  console.log('[LOGIN] attempt:', username);
 
   if (!username || !password) {
     return res.status(400).json({ success: false, message: 'Username and password are required' });
   }
 
   const db   = readDB();
+  console.log('[LOGIN] users in db:', db.users.map(u => u.username));
+
   const user = db.users.find(
-    u => u.username === username.trim() && u.password === password
+    u => u.username === username.trim() && u.password === password.trim()
   );
 
   if (!user) {
+    console.log('[LOGIN] no match found for:', username);
     return res.status(401).json({ success: false, message: 'Invalid username or password' });
   }
 
-  // Save user info in session (never the password)
   req.session.userId   = user.id;
   req.session.username = user.username;
   req.session.name     = user.name;
@@ -74,17 +76,15 @@ app.post('/api/auth/login', (req, res) => {
   });
 });
 
-// POST /api/auth/logout
+//  POST /api/auth/logout 
 app.post('/api/auth/logout', (req, res) => {
   req.session.destroy(err => {
-    if (err) {
-      return res.status(500).json({ success: false, message: 'Logout failed' });
-    }
+    if (err) return res.status(500).json({ success: false, message: 'Logout failed' });
     res.json({ success: true, message: 'Logged out successfully' });
   });
 });
 
-// GET /api/auth/me:  returns current session user
+//  GET /api/auth/me 
 app.get('/api/auth/me', (req, res) => {
   if (!req.session.userId) {
     return res.status(401).json({ success: false, message: 'Not logged in' });
@@ -100,22 +100,21 @@ app.get('/api/auth/me', (req, res) => {
   });
 });
 
-// GET /api/users: list all users (admin only)
+//  GET /api/users (admin only) 
 app.get('/api/users', requireAuth, (req, res) => {
   if (req.session.role !== 'admin') {
     return res.status(403).json({ success: false, message: 'Admins only' });
   }
   const db = readDB();
-  const safeUsers = db.users.map(({ password, ...u }) => u); // strip passwords
+  const safeUsers = db.users.map(({ password, ...u }) => u);
   res.json({ success: true, data: safeUsers });
 });
 
-// GET /api/logs:  get logs (users see only theirs, admin sees all)
+//  GET /api/logs 
 app.get('/api/logs', requireAuth, (req, res) => {
   const db = readDB();
   let logs = db.logs;
 
-  // Non-admins only see their own logs
   if (req.session.role !== 'admin') {
     logs = logs.filter(l => l.userId === req.session.userId);
   }
@@ -129,14 +128,13 @@ app.get('/api/logs', requireAuth, (req, res) => {
   res.json({ success: true, count: logs.length, data: logs });
 });
 
-// GET /api/logs/:id
+//  GET /api/logs/:id 
 app.get('/api/logs/:id', requireAuth, (req, res) => {
   const db  = readDB();
   const log = db.logs.find(l => l.id === req.params.id);
 
   if (!log) return res.status(404).json({ success: false, message: 'Log not found' });
 
-  // Only owner or admin can read
   if (log.userId !== req.session.userId && req.session.role !== 'admin') {
     return res.status(403).json({ success: false, message: 'Forbidden' });
   }
@@ -144,7 +142,7 @@ app.get('/api/logs/:id', requireAuth, (req, res) => {
   res.json({ success: true, data: log });
 });
 
-// POST /api/logs
+//  POST /api/logs 
 app.post('/api/logs', requireAuth, (req, res) => {
   const { date, category, source, kwh, co2kg, location, notes } = req.body;
 
@@ -158,7 +156,7 @@ app.post('/api/logs', requireAuth, (req, res) => {
   const db     = readDB();
   const newLog = {
     id:        generateId(db.logs),
-    userId:    req.session.userId,       
+    userId:    req.session.userId,
     date,
     category,
     source,
@@ -171,11 +169,10 @@ app.post('/api/logs', requireAuth, (req, res) => {
 
   db.logs.push(newLog);
   writeDB(db);
-
   res.status(201).json({ success: true, message: 'Log created', data: newLog });
 });
 
-// PUT /api/logs/:id
+//  PUT /api/logs/:id 
 app.put('/api/logs/:id', requireAuth, (req, res) => {
   const db    = readDB();
   const index = db.logs.findIndex(l => l.id === req.params.id);
@@ -197,10 +194,10 @@ app.put('/api/logs/:id', requireAuth, (req, res) => {
     date:      date      || log.date,
     category:  category  || log.category,
     source:    source    || log.source,
-    kwh:       kwh       !== undefined ? parseFloat(kwh)    : log.kwh,
-    co2kg:     co2kg     !== undefined ? parseFloat(co2kg)  : log.co2kg,
-    location:  location  !== undefined ? location           : log.location,
-    notes:     notes     !== undefined ? notes              : log.notes,
+    kwh:       kwh       !== undefined ? parseFloat(kwh)   : log.kwh,
+    co2kg:     co2kg     !== undefined ? parseFloat(co2kg) : log.co2kg,
+    location:  location  !== undefined ? location          : log.location,
+    notes:     notes     !== undefined ? notes             : log.notes,
     updatedAt: new Date().toISOString()
   };
 
@@ -208,7 +205,7 @@ app.put('/api/logs/:id', requireAuth, (req, res) => {
   res.json({ success: true, message: 'Log updated', data: db.logs[index] });
 });
 
-// DELETE /api/logs/:id
+//  DELETE /api/logs/:id 
 app.delete('/api/logs/:id', requireAuth, (req, res) => {
   const db    = readDB();
   const index = db.logs.findIndex(l => l.id === req.params.id);
@@ -225,7 +222,7 @@ app.delete('/api/logs/:id', requireAuth, (req, res) => {
   res.json({ success: true, message: 'Log deleted', data: deleted });
 });
 
-// GET /api/stats
+//  GET /api/stats 
 app.get('/api/stats', requireAuth, (req, res) => {
   const db   = readDB();
   let   logs = db.logs;
@@ -242,9 +239,9 @@ app.get('/api/stats', requireAuth, (req, res) => {
 
   logs.forEach(l => {
     if (!byCategory[l.category]) byCategory[l.category] = { kwh: 0, co2kg: 0, count: 0 };
-    byCategory[l.category].kwh    += l.kwh;
-    byCategory[l.category].co2kg  += l.co2kg;
-    byCategory[l.category].count  += 1;
+    byCategory[l.category].kwh   += l.kwh;
+    byCategory[l.category].co2kg += l.co2kg;
+    byCategory[l.category].count += 1;
 
     if (!bySource[l.source]) bySource[l.source] = { kwh: 0, co2kg: 0, count: 0 };
     bySource[l.source].kwh   += l.kwh;
@@ -264,9 +261,9 @@ app.get('/api/stats', requireAuth, (req, res) => {
   });
 });
 
-// Fallback SPA
+// Fallback SPA — must be last 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
+  res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
 
 app.listen(PORT, () => {

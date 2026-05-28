@@ -15,7 +15,8 @@ async function apiLogin(username, password) {
     credentials: 'include',
     body: JSON.stringify({ username, password })
   });
-  return res.json();
+  const data = await res.json();
+  return data;
 }
 
 async function apiLogout() {
